@@ -1,10 +1,10 @@
 package delivery_label_generator_service;
 
-
+import org.json.JSONArray;
 import org.json.JSONObject;
+import spark.Request;
+import spark.Response;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +16,15 @@ public class DeliveryLabelGeneratorController {
 
 
         return "url";
+    }
+
+    private ArrayList<JSONObject> createListOfJSONObjects(String jsonString) {
+        ArrayList<JSONObject> deliveryLabels = new ArrayList<JSONObject>();
+        JSONArray jsonArray = new JSONArray(jsonString);
+        for (Object object: jsonArray) {
+            deliveryLabels.add(new JSONObject(object.toString()));
+        }
+        return deliveryLabels;
     }
 
     private String htmlGenerator(ArrayList<JSONObject> orderList){
@@ -46,7 +55,11 @@ public class DeliveryLabelGeneratorController {
 //        }
 //    }
 
-    public String getLabel(req){
+    public String getLabel(){
         return "response";
+    }
+
+    public String status(Request request, Response response) {
+        return "OK";
     }
 }
