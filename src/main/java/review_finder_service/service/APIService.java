@@ -46,6 +46,9 @@ public class APIService {
             idx++;
             logger.info(idx + ". URL parsed.");
             logger.info("Text::" + linkText + ", URL::" + linkHref.substring(7, linkHref.indexOf("&")));
+            if (idx == 5){
+                break;
+            }
         }
         return reviews;
     }
