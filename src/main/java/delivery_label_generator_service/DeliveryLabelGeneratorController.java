@@ -28,14 +28,24 @@ public class DeliveryLabelGeneratorController {
     }
 
     private String htmlGenerator(ArrayList<JSONObject> orderList){
+        System.out.println("COMMENT html");
         String htmlCode = "<html><body>";
+        System.out.println(orderList);
+        System.out.println(htmlCode);
         for (JSONObject order : orderList) {
-            htmlCode += "<div>";
-            htmlCode += "<img src=\"" + qrGenerator(order.getString("id")) + "\" height=\"42\" width=\"42\">";
-            htmlCode += "<ul><li>" + order.getString("name") + "</li><li>" + order.getString("address") + "</li></ul>";
-            htmlCode += "</ul></div>";
+            System.out.println(order);
+            System.out.println(order.getString("name"));
+            System.out.println("itt meg futok");
+            htmlCode= htmlCode.concat("<div><img src=\"" +
+                    "height=\"42\" width=\"42\">" + "<ul><li>" + order.getString("name") + "</li>" +
+                    "<li>" + order.getString("address") + "</li></ul></ul></div>");
+//            " + qrGenerator(order.getString("id")) + "
+            System.out.println("itt már nem");
+            System.out.println(htmlCode);
         }
-        htmlCode += "</body></html";
+        System.out.println(htmlCode);
+        htmlCode= htmlCode.concat("</body></html>");
+        System.out.println("COMMENT végigért");
         return htmlCode;
     }
 
@@ -57,6 +67,8 @@ public class DeliveryLabelGeneratorController {
 
     public String getLabel(Request request, Response response){
 //        ArrayList<JSONObject> deliveryDatas = createListOfJSONObjects(request.queryString());
+//        JSONObject json = new JSONObject();
+//        json.put("code", htmlGenerator(exampleJson()));
         return htmlGenerator(exampleJson());
     }
 
@@ -67,8 +79,6 @@ public class DeliveryLabelGeneratorController {
     private ArrayList<JSONObject> exampleJson(){
         JSONObject jss = new JSONObject();
         JSONObject js = new JSONObject();
-        JSONArray ja = new JSONArray();
-        JSONObject json = new JSONObject();
         js.put("name", "anna");
         js.put("address", "sdf");
         jss.put("id", "sdfgsd");
@@ -83,3 +93,5 @@ public class DeliveryLabelGeneratorController {
         return list;
     }
 }
+
+
