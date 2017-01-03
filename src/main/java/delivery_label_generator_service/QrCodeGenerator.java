@@ -1,15 +1,13 @@
 package delivery_label_generator_service;
 
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.utils.URIBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 
-/**
- * Created by cave on 2017.01.03..
- */
 public class QrCodeGenerator {
+    private static final Logger logger = LoggerFactory.getLogger(QrCodeGenerator.class);
+    private static final String API_URL = "https://api.qrserver.com/v1/create-qr-code/?data=";
+
     private String data;
 
     public QrCodeGenerator() {
@@ -21,6 +19,7 @@ public class QrCodeGenerator {
     }
 
     public String getUrlOfQr(){
-        return "https://api.qrserver.com/v1/create-qr-code/?data=" + data;
+        logger.debug("url to return: " + API_URL + data);
+        return API_URL + data;
     }
 }

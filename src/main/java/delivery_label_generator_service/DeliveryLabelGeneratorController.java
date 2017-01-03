@@ -12,14 +12,8 @@ import java.util.ArrayList;
  */
 public class DeliveryLabelGeneratorController {
 
-    private String qrGenerator(String id){
-
-
-        return "url";
-    }
-
     private ArrayList<JSONObject> createListOfJSONObjects(String jsonString) {
-        ArrayList<JSONObject> deliveryLabels = new ArrayList<JSONObject>();
+        ArrayList<JSONObject> deliveryLabels = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(jsonString);
         for (Object object: jsonArray) {
             deliveryLabels.add(new JSONObject(object.toString()));
@@ -31,7 +25,7 @@ public class DeliveryLabelGeneratorController {
         String htmlCode = "<html><body>";
         for (JSONObject order : orderList) {
             htmlCode += "<div>";
-            htmlCode += "<img src=\"" + qrGenerator(order.getString("id")) + "\" height=\"42\" width=\"42\">";
+            htmlCode += "<img src=\"" + new QrCodeGenerator(order.getString("id")).getUrlOfQr() + "\" height=\"42\" width=\"42\">";
             htmlCode += "<ul><li>" + order.getString("name") + "</li><li>" + order.getString("address") + "</li></ul>";
             htmlCode += "</ul></div>";
         }
@@ -56,30 +50,13 @@ public class DeliveryLabelGeneratorController {
 //    }
 
     public String getLabel(Request request, Response response){
-//        ArrayList<JSONObject> deliveryDatas = createListOfJSONObjects(request.queryString());
-        return htmlGenerator(exampleJson());
+        ArrayList<JSONObject> orders = createListOfJSONObjects(request.queryParams("orders"));
+        System.out.println(request.queryParams("orders"));
+        // TODO: return the correctly formatted pdf bytecode (with necessary headers, etc)
+        return htmlGenerator(orders);
     }
 
     public String status(Request request, Response response) {
         return "OK";
-    }
-
-    private ArrayList<JSONObject> exampleJson(){
-        JSONObject jss = new JSONObject();
-        JSONObject js = new JSONObject();
-        JSONArray ja = new JSONArray();
-        JSONObject json = new JSONObject();
-        js.put("name", "anna");
-        js.put("address", "sdf");
-        jss.put("id", "sdfgsd");
-
-        jss.put("name", "anna");
-        jss.put("address", "sdf");
-        jss.put("id", "sdfgsd");
-
-        ArrayList <JSONObject> list = new ArrayList<>();
-        list.add(js);
-        list.add(jss);
-        return list;
     }
 }
