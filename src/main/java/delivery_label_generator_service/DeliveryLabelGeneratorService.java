@@ -22,8 +22,8 @@ public class DeliveryLabelGeneratorService {
         DeliveryLabelGeneratorService application = new DeliveryLabelGeneratorService();
         application.controller = new DeliveryLabelGeneratorController();
 
-        get("/api/create-label", (application.controller::status));
-        get("/api/create-label", (application.controller::createLabel));
+        get("/api/status", (application.controller::status));
+        get("/api/create-label", (application.controller::getLabel));
     }
 
     private static void setup(String[] args) {

@@ -55,11 +55,31 @@ public class DeliveryLabelGeneratorController {
 //        }
 //    }
 
-    public String getLabel(){
-        return "response";
+    public String getLabel(Request request, Response response){
+//        ArrayList<JSONObject> deliveryDatas = createListOfJSONObjects(request.queryString());
+        return htmlGenerator(exampleJson());
     }
 
     public String status(Request request, Response response) {
         return "OK";
+    }
+
+    private ArrayList<JSONObject> exampleJson(){
+        JSONObject jss = new JSONObject();
+        JSONObject js = new JSONObject();
+        JSONArray ja = new JSONArray();
+        JSONObject json = new JSONObject();
+        js.put("name", "anna");
+        js.put("address", "sdf");
+        jss.put("id", "sdfgsd");
+
+        jss.put("name", "anna");
+        jss.put("address", "sdf");
+        jss.put("id", "sdfgsd");
+
+        ArrayList <JSONObject> list = new ArrayList<>();
+        list.add(js);
+        list.add(jss);
+        return list;
     }
 }
