@@ -1,7 +1,6 @@
 package review_finder_service.service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import static org.junit.Assert.*;
 
@@ -9,29 +8,47 @@ import static org.junit.Assert.*;
  * Created by prezi on 2017. 01. 03..
  */
 public class APIServiceTest {
-
-    String title = "product";
-    APIService service = APIService.getInstance();
-
-    public static boolean isValidURI(String uriString){
-        try {
-            URI uri = new URI(uriString);
-            return true;
-        }
-        catch (URISyntaxException e) {
-            return false;
-        }
-    }
+    private APIService service = APIService.getInstance();
 
 
     @org.junit.Test
-    public void findReviews() throws Exception {
-        String[][] reviews = service.findReviews(title);
-        assertEquals(true, isValidURI(reviews[0][1]));
-        assertEquals(true, isValidURI(reviews[1][1]));
-        assertEquals(true, isValidURI(reviews[2][1]));
-        assertEquals(true, isValidURI(reviews[3][1]));
-        assertEquals(true, isValidURI(reviews[4][1]));
+    public void validUrlTest() throws Exception {
+        String[][] reviews = service.findReviews("asus zenbook");
+        for (int i=0; i<5; i++){
+            assertTrue(UrlValidator.getInstance().isValid(reviews[i][1]));
+        }
+    }
+
+    @org.junit.Test
+    public void whitespaceUrlTest() throws Exception {
+        String[][] reviews = service.findReviews("   ");
+        for (int i=0; i<5; i++){
+            assertTrue(UrlValidator.getInstance().isValid(reviews[i][1]));
+        }
+    }
+
+    @org.junit.Test
+    public void numberUrlTest() throws Exception {
+        String[][] reviews = service.findReviews("31241");
+        for (int i=0; i<5; i++){
+            assertTrue(UrlValidator.getInstance().isValid(reviews[i][1]));
+        }
+    }
+
+    @org.junit.Test
+    public void emptyUrlTest() throws Exception {
+        String[][] reviews = service.findReviews("");
+        for (int i=0; i<5; i++){
+            assertTrue(UrlValidator.getInstance().isValid(reviews[i][1]));
+        }
+    }
+
+    @org.junit.Test
+    public void randomUrlTest() throws Exception {
+        String[][] reviews = service.findReviews("asdefe");
+        for (int i=0; i<5; i++){
+            assertTrue(UrlValidator.getInstance().isValid(reviews[i][1]));
+        }
     }
 
 }
