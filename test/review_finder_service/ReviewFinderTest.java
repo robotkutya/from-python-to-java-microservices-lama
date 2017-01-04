@@ -34,9 +34,52 @@ public class ReviewFinderTest {
                 .asString());
     }
 
+    /*
+    Testing returned Json schema (5*2).
+     */
     @org.junit.Test
     public void validJsonTest() throws URISyntaxException, IOException {
         JSONObject json = getJson("asus zenbook");
+        Iterator<String> keys = json.keys();
+        assertEquals(5, json.length());
+        while (keys.hasNext()){
+            assertEquals(2, json.getJSONObject(keys.next()).length());
+        }
+    }
+
+    @org.junit.Test
+    public void emptyJsonTest() throws URISyntaxException, IOException {
+        JSONObject json = getJson("");
+        Iterator<String> keys = json.keys();
+        assertEquals(5, json.length());
+        while (keys.hasNext()){
+            assertEquals(2, json.getJSONObject(keys.next()).length());
+        }
+    }
+
+    @org.junit.Test
+    public void randomJsonTest() throws URISyntaxException, IOException {
+        JSONObject json = getJson("asdaf");
+        Iterator<String> keys = json.keys();
+        assertEquals(5, json.length());
+        while (keys.hasNext()){
+            assertEquals(2, json.getJSONObject(keys.next()).length());
+        }
+    }
+
+    @org.junit.Test
+    public void whitespaceJsonTest() throws URISyntaxException, IOException {
+        JSONObject json = getJson("  ");
+        Iterator<String> keys = json.keys();
+        assertEquals(5, json.length());
+        while (keys.hasNext()){
+            assertEquals(2, json.getJSONObject(keys.next()).length());
+        }
+    }
+
+    @org.junit.Test
+    public void numJsonTest() throws URISyntaxException, IOException {
+        JSONObject json = getJson("3421");
         Iterator<String> keys = json.keys();
         assertEquals(5, json.length());
         while (keys.hasNext()){
