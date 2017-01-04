@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class DeliveryLabelGeneratorController {
 
-    private ArrayList<JSONObject> createListOfJSONObjects(String jsonString) {
+    /* private -> testing */ ArrayList<JSONObject> createListOfJSONObjects(String jsonString) {
         ArrayList<JSONObject> deliveryLabels = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(jsonString);
         for (Object object: jsonArray) {
@@ -57,7 +57,7 @@ public class DeliveryLabelGeneratorController {
             document.close();
             byte[] b = baos.toByteArray();
             String code = Base64.encodeBytes(b).toString();
-            return "data:application/pdf;base64,"+code;
+            return code;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,7 +67,6 @@ public class DeliveryLabelGeneratorController {
 
     public String getLabel(Request request, Response response){
         ArrayList<JSONObject> orders = createListOfJSONObjects(request.queryParams("orders"));
-        System.out.println(request.queryParams("orders"));
         // TODO: return the correctly formatted pdf bytecode (with necessary headers, etc)
         return htmlGenerator(orders);
     }
