@@ -10,17 +10,25 @@ public class QrCodeGenerator {
 
     private String data;
 
+
     public QrCodeGenerator() {
         super();
     }
 
+
+    /**
+     * Constructor of the class
+     * @param data What the qr code will return after scan
+     */
     public QrCodeGenerator(String data) {
         this.data = data;
     }
 
+
     public void setData(String data) {
         this.data = data;
     }
+
 
     public String getData() {
         return data;

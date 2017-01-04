@@ -5,6 +5,8 @@ import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -18,6 +20,7 @@ import java.util.ArrayList;
  * Created by cave on 2017.01.03..
  */
 public class DeliveryLabelGeneratorController {
+    private static final Logger logger = LoggerFactory.getLogger(DeliveryLabelGeneratorController.class);
 
     /* private -> testing */ ArrayList<JSONObject> createListOfJSONObjects(String jsonString) {
         ArrayList<JSONObject> deliveryLabels = new ArrayList<>();
@@ -48,7 +51,7 @@ public class DeliveryLabelGeneratorController {
     }
 
 
-    private static byte[] createPDF(ArrayList<JSONObject> orders){
+    /* private -> testing */ byte[] createPDF(ArrayList<JSONObject> orders){
         LabelFormatter formatter = new LabelFormatter();
         String htmlcode = formatter.createCode(orders);
 
