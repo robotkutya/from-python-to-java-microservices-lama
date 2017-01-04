@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 public class QrCodeGenerator {
     private static final Logger logger = LoggerFactory.getLogger(QrCodeGenerator.class);
-    private static final String API_URL = "https://api.qrserver.com/v1/create-qr-code/?data=";
+    private static final String API_URL = "http://api.qrserver.com/v1/create-qr-code/?data=";
 
     private String data;
 
