@@ -3,13 +3,14 @@ package delivery_label_generator_service;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.codec.Base64;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
+import javax.servlet.ServletOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class DeliveryLabelGeneratorController {
 
     private ArrayList<JSONObject> createListOfJSONObjects(String jsonString) {
-        ArrayList<JSONObject> deliveryLabels = new ArrayList<>();
+        ArrayList<JSONObject> deliveryLabels = new ArrayList<JSONObject>();
         JSONArray jsonArray = new JSONArray(jsonString);
         for (Object object: jsonArray) {
             deliveryLabels.add(new JSONObject(object.toString()));
@@ -27,43 +28,40 @@ public class DeliveryLabelGeneratorController {
         return deliveryLabels;
     }
 
-    private String htmlGenerator(ArrayList<JSONObject> orderList){
-        String htmlCode = "<html style=\"size: 21cm 29.7cm; margin: 30mm 45mm 30mm 45mm;\"><body>";
-        for (JSONObject order : orderList) {
-            htmlCode += "<div>";
-            htmlCode += "<img src=\"" + new QrCodeGenerator(order.getString("id")).getUrlOfQr() + "\" height=\"42\" width=\"42\">";
-            htmlCode += "<ul><li>" + order.getString("name") + "</li><li>" + order.getString("address") + "</li></ul>";
-            htmlCode += "</ul></div>";
-        }
-        htmlCode += "</body></html";
-        return htmlCode;
-    }
 
-    private static String createPDF(){
+
+    private static byte[] createPDF(ArrayList<JSONObject> orders){
+        LabelFormatter formatter = new LabelFormatter();
+        String htmlcode = formatter.createCode(orders);
+
         try {
-            String k = "<html><body> This is my project </body></html>";
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Document document = new Document();
             PdfWriter.getInstance(document, baos);
             document.open();
             HTMLWorker htmlWorker = new HTMLWorker(document);
-            htmlWorker.parse(new StringReader(k));
+            htmlWorker.parse(new StringReader(htmlcode));
             document.close();
-            byte[] b = baos.toByteArray();
-            String code = Base64.encodeBytes(b).toString();
-            return "data:application/pdf;base64,"+code;
+            return baos.toByteArray();
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "fail";
+            return null;
+
         }
     }
 
-    public String getLabel(Request request, Response response){
+    public int getLabel(Request request, Response response) throws IOException {
+
         ArrayList<JSONObject> orders = createListOfJSONObjects(request.queryParams("orders"));
-        System.out.println(request.queryParams("orders"));
-        // TODO: return the correctly formatted pdf bytecode (with necessary headers, etc)
-        return htmlGenerator(orders);
+
+        response.header("Content-Type", "application/pdf");
+        ServletOutputStream outputStream = response.raw().getOutputStream();
+        outputStream.write(createPDF(orders));
+        outputStream.flush();
+        outputStream.close();
+
+        return 200;
     }
 
     public String status(Request request, Response response) {
