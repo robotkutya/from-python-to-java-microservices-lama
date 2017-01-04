@@ -31,7 +31,13 @@ public class DeliveryLabelGeneratorController {
         String htmlCode = "<html style=\"size: 21cm 29.7cm; margin: 30mm 45mm 30mm 45mm;\"><body>";
         for (JSONObject order : orderList) {
             htmlCode += "<div>";
-            htmlCode += "<img src=\"" + new QrCodeGenerator(order.getString("id")).getUrlOfQr() + "\" height=\"42\" width=\"42\">";
+            try {
+                htmlCode += "<img src=\""
+                        + new QrCodeGenerator(order.getString("id")).getUrlOfQr()
+                        + "\" height=\"42\" width=\"42\">";
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
             htmlCode += "<ul><li>" + order.getString("name") + "</li><li>" + order.getString("address") + "</li></ul>";
             htmlCode += "</ul></div>";
         }
