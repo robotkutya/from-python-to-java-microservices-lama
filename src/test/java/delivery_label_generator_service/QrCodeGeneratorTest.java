@@ -17,7 +17,7 @@ public class QrCodeGeneratorTest {
 
         String qrCodeUrl = qrCodeGenerator.getUrlOfQr();
 
-        assertEquals(qrCodeUrl, "https://api.qrserver.com/v1/create-qr-code/?data=test");
+        assertEquals(qrCodeUrl, "http://api.qrserver.com/v1/create-qr-code/?data=test");
     }
 
     @Rule
