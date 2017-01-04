@@ -10,15 +10,33 @@ public class QrCodeGenerator {
 
     private String data;
 
+
     public QrCodeGenerator() {
         super();
     }
 
+
+    /**
+     * Constructor of the class
+     * @param data What the qr code will return after scan
+     */
     public QrCodeGenerator(String data) {
         this.data = data;
     }
 
-    public String getUrlOfQr(){
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+
+    public String getData() {
+        return data;
+    }
+
+    public String getUrlOfQr() throws NoSuchFieldException {
+        if (data == null) throw new NoSuchFieldException("Please set the 'data' field with a string!");
+
         logger.debug("url to return: " + API_URL + data);
         return API_URL + data;
     }

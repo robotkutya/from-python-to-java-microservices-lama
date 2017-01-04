@@ -5,6 +5,8 @@ import com.itextpdf.text.html.simpleparser.HTMLWorker;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
@@ -18,9 +20,10 @@ import java.util.ArrayList;
  * Created by cave on 2017.01.03..
  */
 public class DeliveryLabelGeneratorController {
+    private static final Logger logger = LoggerFactory.getLogger(DeliveryLabelGeneratorController.class);
 
-    private ArrayList<JSONObject> createListOfJSONObjects(String jsonString) {
-        ArrayList<JSONObject> deliveryLabels = new ArrayList<JSONObject>();
+    /* private -> testing */ ArrayList<JSONObject> createListOfJSONObjects(String jsonString) {
+        ArrayList<JSONObject> deliveryLabels = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(jsonString);
         for (Object object: jsonArray) {
             deliveryLabels.add(new JSONObject(object.toString()));
@@ -29,8 +32,26 @@ public class DeliveryLabelGeneratorController {
     }
 
 
+    private String htmlGenerator(ArrayList<JSONObject> orderList){
+        String htmlCode = "<html style=\"size: 21cm 29.7cm; margin: 30mm 45mm 30mm 45mm;\"><body>";
+        for (JSONObject order : orderList) {
+            htmlCode += "<div>";
+            try {
+                htmlCode += "<img src=\""
+                        + new QrCodeGenerator(order.getString("id")).getUrlOfQr()
+                        + "\" height=\"42\" width=\"42\">";
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+            htmlCode += "<ul><li>" + order.getString("name") + "</li><li>" + order.getString("address") + "</li></ul>";
+            htmlCode += "</ul></div>";
+        }
+        htmlCode += "</body></html";
+        return htmlCode;
+    }
 
-    private static byte[] createPDF(ArrayList<JSONObject> orders){
+
+    /* private -> testing */ byte[] createPDF(ArrayList<JSONObject> orders){
         LabelFormatter formatter = new LabelFormatter();
         String htmlcode = formatter.createCode(orders);
 
@@ -51,10 +72,10 @@ public class DeliveryLabelGeneratorController {
         }
     }
 
+
     public int getLabel(Request request, Response response) throws IOException {
 
         ArrayList<JSONObject> orders = createListOfJSONObjects(request.queryParams("orders"));
-
         response.header("Content-Type", "application/pdf");
         ServletOutputStream outputStream = response.raw().getOutputStream();
         outputStream.write(createPDF(orders));
