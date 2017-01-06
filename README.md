@@ -64,6 +64,7 @@ that contains these results.
    link: the URL of the Google search result
 
    Example:
+   ```
    {
       "0":{
          "text":"MacBook Pro review (2016): A step forward and a step back",
@@ -86,3 +87,4 @@ that contains these results.
          "url":"http://www.theverge.com/2016/11/14/13616404/apple-macbook-pro-touch-bar-review-2016-13-inch-15-inch-laptop"
       }
    }
+   ```
