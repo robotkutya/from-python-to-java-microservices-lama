@@ -27,6 +27,7 @@ $("#test").click(function() {
         }
     });
 ```
+Find the documentation in the service's package folder. (open the delivery_label_generator_service/documentation/index.html)
 
 
 **********
