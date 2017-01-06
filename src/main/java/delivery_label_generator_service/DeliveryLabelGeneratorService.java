@@ -11,9 +11,13 @@ import static spark.Spark.port;
  */
 public class DeliveryLabelGeneratorService {
     private static final Logger logger = LoggerFactory.getLogger(DeliveryLabelGeneratorService.class);
-
     private DeliveryLabelGeneratorController controller;
 
+
+    /**
+     * The main method of the API
+     * @param args String array of the given program arguments
+     */
     public static void main(String[] args) {
         logger.debug("Starting " + DeliveryLabelGeneratorService.class.getName() + "...");
 
@@ -26,6 +30,11 @@ public class DeliveryLabelGeneratorService {
         get("/api/create-label", (application.controller::getLabel));
     }
 
+
+    /**
+     * setup the server's port
+     * @param args
+     */
     private static void setup(String[] args) {
         if (args == null || args.length == 0) {
             logger.error("Port must be given as the first argument.");

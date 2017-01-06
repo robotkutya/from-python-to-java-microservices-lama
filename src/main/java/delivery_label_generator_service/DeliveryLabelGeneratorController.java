@@ -22,6 +22,12 @@ import java.util.ArrayList;
 public class DeliveryLabelGeneratorController {
     private static final Logger logger = LoggerFactory.getLogger(DeliveryLabelGeneratorController.class);
 
+
+    /**
+     * Creating a list with the deliveries' JSONObjects
+     * @param jsonString A json formatted string with the necessary delivery parameters (check the README.md for more info)
+     * @return An array with the deliveries' JSONObjects for later use
+     */
     /* private -> testing */ ArrayList<JSONObject> createListOfJSONObjects(String jsonString) {
         ArrayList<JSONObject> deliveryLabels = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(jsonString);
@@ -32,25 +38,11 @@ public class DeliveryLabelGeneratorController {
     }
 
 
-    private String htmlGenerator(ArrayList<JSONObject> orderList){
-        String htmlCode = "<html style=\"size: 21cm 29.7cm; margin: 30mm 45mm 30mm 45mm;\"><body>";
-        for (JSONObject order : orderList) {
-            htmlCode += "<div>";
-            try {
-                htmlCode += "<img src=\""
-                        + new QrCodeGenerator(order.getString("id")).getUrlOfQr()
-                        + "\" height=\"42\" width=\"42\">";
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-            htmlCode += "<ul><li>" + order.getString("name") + "</li><li>" + order.getString("address") + "</li></ul>";
-            htmlCode += "</ul></div>";
-        }
-        htmlCode += "</body></html";
-        return htmlCode;
-    }
-
-
+    /**
+     * Convert a formatted String into a PDF
+     * @param orders Get an ArrayList of deliveries' JSONObjects
+     * @return a byteArray of the PDF
+     */
     /* private -> testing */ byte[] createPDF(ArrayList<JSONObject> orders){
         LabelFormatter formatter = new LabelFormatter();
         String htmlcode = formatter.createCode(orders);
@@ -73,6 +65,13 @@ public class DeliveryLabelGeneratorController {
     }
 
 
+    /**
+     *
+     * @param request spark.Request class' object for server request
+     * @param response spark.Response class' object for server response
+     * @return 200 if the the outputStream didn't run on IOException
+     * @throws IOException when the outputStream towards the Spark api fail
+     */
     public int getLabel(Request request, Response response) throws IOException {
 
         ArrayList<JSONObject> orders = createListOfJSONObjects(request.queryParams("orders"));
@@ -85,6 +84,13 @@ public class DeliveryLabelGeneratorController {
         return 200;
     }
 
+
+    /**
+     * Check the microservice's status
+     * @param request spark.Request class' object for server request
+     * @param response spark.Response class' object for server response
+     * @return OK when the server are running
+     */
     public String status(Request request, Response response) {
         return "OK";
     }

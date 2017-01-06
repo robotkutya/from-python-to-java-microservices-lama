@@ -17,6 +17,10 @@ public class LabelFormatter {
     String betweenRows;
     String endOfCode;
 
+
+    /**
+     * Constructor of the class - setup the necessary HTML tags
+     */
     public LabelFormatter() {
         beginOfCode=" <html lang=\"en\" style=\"size: 21cm 29.7cm; margin: 0;\"><head></head><body>" +
                 "<table style=\"size: 21cm 29.7cm; margin: 0;\"><tr>";
@@ -36,6 +40,12 @@ public class LabelFormatter {
         endOfCode= " </tr></table></body></html>";
     }
 
+
+    /**
+     * Generate a formatted String with HTML tags for later PDF converting
+     * @param orderList Get an ArrayList of deliveries' JSONObjects
+     * @return the formatted String with the deliveries' details
+     */
     public String createCode(ArrayList<JSONObject> orderList){
         String htmlCode = "";
         htmlCode += beginOfCode;
