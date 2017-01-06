@@ -20,7 +20,8 @@ public class ReviewAPIController {
     }
 
     /*
-    Returns 5 review URLs with titles
+    Uses the APIService's findReview and converts it to a JSON
+    It returns this JSON as a String
      */
     public String getReviews(Request req, Response res){
         try {

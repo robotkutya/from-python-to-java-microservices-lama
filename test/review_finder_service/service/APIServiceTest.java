@@ -11,6 +11,7 @@ public class APIServiceTest {
     private APIService service = APIService.getInstance();
 
 
+    /* Standard case for product name */
     @org.junit.Test
     public void validUrlTest() throws Exception {
         String[][] reviews = service.findReviews("asus zenbook");
@@ -19,6 +20,7 @@ public class APIServiceTest {
         }
     }
 
+    /* Edge cases for product name */
     @org.junit.Test
     public void whitespaceUrlTest() throws Exception {
         String[][] reviews = service.findReviews("   ");
@@ -50,5 +52,4 @@ public class APIServiceTest {
             assertTrue(UrlValidator.getInstance().isValid(reviews[i][1]));
         }
     }
-
 }
