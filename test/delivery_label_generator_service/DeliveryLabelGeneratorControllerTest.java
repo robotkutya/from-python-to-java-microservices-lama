@@ -62,7 +62,7 @@ public class DeliveryLabelGeneratorControllerTest {
 
     @Test
     public void PDFByteArrayValid() throws Exception {
-        File file = new File("src/test/java/delivery_label_generator_service/resource/PDF_byteCode.txt");
+        File file = new File("test/delivery_label_generator_service/resource/PDF_byteCode.txt");
         FileInputStream fis = new FileInputStream(file);
         byte[] data = new byte[(int) file.length()];
         fis.read(data);
