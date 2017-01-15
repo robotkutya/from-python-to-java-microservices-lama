@@ -10,7 +10,9 @@ import java.net.URISyntaxException;
 import static spark.Spark.*;
 
 /**
- * Created by leviathan on 2017.01.03..
+ * @author      Misi Furedi <address @ example.com>
+ * @version     Beta                 (current version number of program)
+ * @since       The beginning of time          (the version of the package this class was first added to)
  */
 public class ReviewFinderService {
     private static final Logger logger = LoggerFactory.getLogger(ReviewFinderService.class);

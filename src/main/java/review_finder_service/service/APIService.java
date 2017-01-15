@@ -11,7 +11,9 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 
 /**
- * Created by leviathan on 2017.01.03..
+ * @author      Misi Furedi <address @ example.com>
+ * @version     Beta                 (current version number of program)
+ * @since       The beginning of time          (the version of the package this class was first added to)
  */
 public class APIService {
     private static final Logger logger = LoggerFactory.getLogger(APIService.class);
@@ -29,10 +31,10 @@ public class APIService {
         return INSTANCE;
     }
 
-    /*
-    Uses the Jsoup library to parse the html
-    Returns a String[5][2] Array containing the top 5 search results as
-    DESCRIPTION - URL
+    /**
+     * Uses the Jsoup library to parse the html
+     * @param  title What we search for, the search term
+     * @return A String[5][2] Array containing the top 5 search results.
      */
     public String[][] findReviews(String title) throws IOException {
         logger.info("Building URL, trying to connect.");

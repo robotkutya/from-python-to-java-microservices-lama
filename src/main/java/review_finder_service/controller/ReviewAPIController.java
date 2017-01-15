@@ -9,7 +9,9 @@ import javax.json.JsonObjectBuilder;
 import java.io.IOException;
 
 /**
- * Created by leviathan on 2017.01.03..
+ * @author      Misi Furedi <address @ example.com>
+ * @version     Beta                 (current version number of program)
+ * @since       The beginning of time          (the version of the package this class was first added to)
  */
 public class ReviewAPIController {
     public static final String CATEGORY_PARAM_KEY = "title";
@@ -19,9 +21,11 @@ public class ReviewAPIController {
         this.apiService = apiService;
     }
 
-    /*
-    Uses the APIService's findReview and converts it to a JSON
-    It returns this JSON as a String
+    /**
+     * Uses the APIService's findReview and converts it to a JSON
+     * @param  req
+     * @param  res
+     * @return It returns the input JSON as a String or null
      */
     public String getReviews(Request req, Response res){
         try {
